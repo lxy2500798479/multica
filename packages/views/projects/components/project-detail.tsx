@@ -523,17 +523,25 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
               <span className="text-muted-foreground">{usage.total.task_count}</span>
             </PropRow>
             {usage.summary.length > 0 && (
-              <div className="pt-1 mt-1 border-t border-border/50 space-y-0.5">
-                <div className="px-2 pt-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+              <div className="pt-2 mt-1 border-t border-border/50">
+                <div className="px-2 pb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
                   Last 30 days by model
                 </div>
-                {usage.summary.slice(0, 5).map((row) => (
-                  <PropRow key={row.model} label={row.model.length > 14 ? `${row.model.slice(0, 13)}…` : row.model}>
-                    <span className="text-muted-foreground">
-                      {formatTokenCount(row.total_input_tokens + row.total_output_tokens)} · {row.task_count} runs
-                    </span>
-                  </PropRow>
-                ))}
+                <div className="space-y-0.5">
+                  {usage.summary.slice(0, 5).map((row) => (
+                    <div
+                      key={row.model}
+                      className="flex min-h-7 items-center gap-2 rounded-md px-2 -mx-2 hover:bg-accent/50 transition-colors"
+                    >
+                      <span className="min-w-0 flex-1 truncate text-xs" title={row.model}>
+                        {row.model}
+                      </span>
+                      <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                        {formatTokenCount(row.total_input_tokens + row.total_output_tokens)} · {row.task_count} runs
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>}
